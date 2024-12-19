@@ -174,9 +174,9 @@ def actual_prihod():
 
 # Function to schedule daily task at 22:00
 def schedule_task():
-    schedule.every().day.at("23:01").do(actual_date)
-    schedule.every().day.at("23:20").do(actual_stock)
-    schedule.every().day.at("23:50").do(actual_prihod)
+    schedule.every().day.at("18:15").do(actual_date)
+    schedule.every().day.at("18:40").do(actual_stock)
+    schedule.every().day.at("18:59").do(actual_prihod)
     while True:
         schedule.run_pending()
         time.sleep(60)  # Check every minute if the scheduled task should run
