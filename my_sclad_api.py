@@ -181,10 +181,20 @@ def schedule_task():
         schedule.run_pending()
         time.sleep(60)  # Check every minute if the scheduled task should run
 
+def run_initial_tasks():
+    actual_date()    
+    # Запуск actual_stock через 5 минут (300 секунд)
+    threading.Timer(300, actual_stock).start()    
+    # Запуск actual_prihod через 10 минут (600 секунд)
+    threading.Timer(600, actual_prihod).start()
+
 
 # Start the scheduling in a separate thread
 task_thread = threading.Thread(target=schedule_task)
 task_thread.start()
+
+initial_tasks_thread = threading.Thread(target=run_initial_tasks)
+initial_tasks_thread.start()
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=3000)
