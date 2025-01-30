@@ -153,21 +153,21 @@ def get_summary():
 
 # Function to determine the start date and export sales data
 def actual_date():
-    start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
-    #start_date = '2024-10-01'
+    #start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
+    start_date = '2024-12-01'
     export_sales_data(start_date)
     print(f"Data export completed for start date {start_date}", flush=True)
 
 
 def actual_stock():
-    start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
-    #start_date = '2024-10-01'
+    #start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
+    start_date = '2024-12-01'
     run_products(start_date)
     print(f"Stock data update completed for start date {start_date}", flush=True)
     
 def actual_prihod():
-    start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
-    #start_date = '2024-10-01'
+    #start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
+    start_date = '2024-12-01'
     export_prihod_data(start_date)
     print(f"Stock data update completed for start date {start_date}", flush=True)
 
