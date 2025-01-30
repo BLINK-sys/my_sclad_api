@@ -181,10 +181,10 @@ def schedule_task():
         schedule.run_pending()
         time.sleep(60)  # Check every minute if the scheduled task should run
 
-def run_initial_tasks():
-    actual_date()    
-    threading.Timer(300, actual_stock).start()    
-    threading.Timer(600, actual_prihod).start()
+#def run_initial_tasks():
+    #actual_date()    
+    #threading.Timer(300, actual_stock).start()    
+    #threading.Timer(600, actual_prihod).start()
 
 
 # Start the scheduling in a separate thread
