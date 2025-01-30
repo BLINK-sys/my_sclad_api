@@ -153,21 +153,21 @@ def get_summary():
 
 # Function to determine the start date and export sales data
 def actual_date():
-    start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
-    #start_date = '2024-12-01'
+    #start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
+    start_date = '2024-12-01'
     export_sales_data(start_date)
     print(f"Data export completed for start date {start_date}", flush=True)
 
 
 def actual_stock():
-    start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
-    #start_date = '2024-12-01'
+    #start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
+    start_date = '2024-12-01'
     run_products(start_date)
     print(f"Stock data update completed for start date {start_date}", flush=True)
     
 def actual_prihod():
-    start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
-    #start_date = '2024-12-01'
+    #start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
+    start_date = '2024-12-01'
     export_prihod_data(start_date)
     print(f"Stock data update completed for start date {start_date}", flush=True)
 
@@ -183,9 +183,7 @@ def schedule_task():
 
 def run_initial_tasks():
     actual_date()    
-    # Запуск actual_stock через 5 минут (300 секунд)
     threading.Timer(300, actual_stock).start()    
-    # Запуск actual_prihod через 10 минут (600 секунд)
     threading.Timer(600, actual_prihod).start()
 
 
@@ -194,8 +192,8 @@ task_thread = threading.Thread(target=schedule_task)
 task_thread.start()
 
 #поток запуска при старте
-#initial_tasks_thread = threading.Thread(target=run_initial_tasks)
-#initial_tasks_thread.start()
+initial_tasks_thread = threading.Thread(target=run_initial_tasks)
+initial_tasks_thread.start()
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=3000)
