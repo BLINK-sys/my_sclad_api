@@ -33,7 +33,7 @@ class MoySkladClient:
 # Функция для удаления данных из базы начиная с указанной даты
 def clear_existing_data(start_date):
     try:
-            conn = sqlite3.connect('sales_data.db')
+            conn = sqlite3.connect('/var/data/sales_data.db')
             cursor = conn.cursor()
             cursor.execute('DELETE FROM sales WHERE date >= ?', (start_date + " 00:00:00",))
             conn.commit()
