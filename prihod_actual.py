@@ -32,7 +32,7 @@ class MoySkladClient:
 # Функция для очистки данных по приходам
 def clear_existing_prihod_data(start_date):
     try:
-        conn = sqlite3.connect('sales_data.db')
+        conn = sqlite3.connect('/var/data/sales_data.db')
         cursor = conn.cursor()
         cursor.execute('DELETE FROM prihod WHERE date >= ?', (start_date + " 00:00:00",))
         conn.commit()
@@ -48,7 +48,7 @@ def clear_existing_prihod_data(start_date):
 def save_prihod_data(document_number, date, supplier, positions):
     while True:
         try:
-            conn = sqlite3.connect('sales_data.db')
+            conn = sqlite3.connect('/var/data/sales_data.db')
             cursor = conn.cursor()
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS prihod (
