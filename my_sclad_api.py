@@ -188,14 +188,14 @@ task_thread.start()
 
 
 
-def run_initial_tasks():
-    actual_date()    
-    threading.Timer(300, actual_stock).start()    
-    threading.Timer(600, actual_prihod).start()
+# def run_initial_tasks():
+    # actual_date()    
+    # threading.Timer(300, actual_stock).start()    
+    # threading.Timer(600, actual_prihod).start()
 
 #поток запуска при старте
-initial_tasks_thread = threading.Thread(target=run_initial_tasks)
-initial_tasks_thread.start()
+# initial_tasks_thread = threading.Thread(target=run_initial_tasks)
+# initial_tasks_thread.start()
 
 
 
