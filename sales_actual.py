@@ -73,7 +73,7 @@ def get_positions_data(positions_href, sklad):
 def save_sales_data(document_number, date, seller, positions):
     while True:
         try:
-                conn = sqlite3.connect('sales_data.db')
+                conn = sqlite3.connect('/var/data/sales_data.db')
                 cursor = conn.cursor()
                 cursor.execute('''
                     CREATE TABLE IF NOT EXISTS sales (
