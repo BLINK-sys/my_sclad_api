@@ -6,7 +6,7 @@ import sqlite3
 import time
 
 # Путь к базе данных SQLite
-DB_PATH = 'sales_data.db'
+DB_PATH = '/var/data/sales_data.db'
 
 username = "admin@bayzak1"
 password = "Pospro2023!"
