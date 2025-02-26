@@ -176,7 +176,7 @@ def gpt_analiz():
     if not file_name:
         return jsonify({"error": "file_name is required"}), 400
 
-    print(f"Генерация прогноза для товара{file_name}, со сроком доставки {dostavka} дней и запасом {zapas} шт.")
+    print(f"Генерация прогноза для товара {file_name}, со сроком доставки {dostavka} дней и запасом {zapas} шт.")
 
     return gpt_api(file_name, dostavka, zapas)
 
