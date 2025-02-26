@@ -2,6 +2,8 @@ import os
 import openai
 import json
 from datetime import datetime
+import urllib.parse
+
 
 # Подключаем OpenAI API
 openai.api_key = os.getenv("OPENAI_API_KEY")
