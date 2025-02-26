@@ -1,2 +1,1 @@
-token = "sk-proj-T1pSQ24X2z858B5lBZUhg1JprQia84l7GZfLPEpHezEgX9HiTH9mpC185yw9IDZMCZvH1cRhVhT3BlbkFJzvNPIXqHei2Ncf" \
-        "-J6oaRXqnLyFw3dBxWzWdkwOLk4fg8-yESZpfxLhyvCQ7qZRM6yJJpEY8CYA"
+token = "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"
