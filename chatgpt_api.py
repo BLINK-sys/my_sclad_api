@@ -6,7 +6,7 @@ from datetime import datetime
 # Подключаем OpenAI API
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-client = openai.OpenAI(api_key)
+client = openai.OpenAI(api_key=openai.api_key)
 
 
 def gpt_api(file_name, dostavka, zapas):
