@@ -10,7 +10,7 @@ client = openai.OpenAI(api_key=token)
 def gpt_api(file_name, dostavka, zapas):
     """Загружает JSON-файл, передаёт его в GPT для анализа и получает ответ."""
 
-    file_name = f"products_json/{file_name}"
+    file_name = f"/products_json/{file_name}"
 
     # Проверяем, существует ли файл
     if not os.path.exists(file_name):
