@@ -1,11 +1,16 @@
-from flask import Flask, jsonify
+import json
+
+from flask import Flask, jsonify, Response, request
 from flask_cors import CORS
 import sqlite3
 from datetime import datetime
 import threading
 import time
 import schedule
+
+from chatgpt_api import gpt_api
 from sales_actual import export_sales_data
+from server_for_analiz_gpt import create_json_files, list_json_files
 from stock_actual import run_products
 from prihod_actual import export_prihod_data
 
@@ -15,7 +20,7 @@ CORS(app)
 
 # Function to get database connection
 def get_db_connection():
-    conn = sqlite3.connect('/var/data/sales_data.db')
+    conn = sqlite3.connect('sales_data.db')
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -30,16 +35,16 @@ def extract_year_month(date_str):
         except ValueError:
             return None
 
-  
-  
+
 @app.route('/sleep')
 def sleep():
     sleep = [
         {
-            "sleep": "Я проснулся!"            
+            "sleep": "Я проснулся!"
         }
     ]
     return jsonify(sleep)
+
 
 @app.route('/data')
 def get_data():
@@ -130,7 +135,7 @@ def get_summary():
     summary = []
     for month_year, stock_products in stock_dict.items():
         prihod_products = prihod_dict.get(month_year, set())
-        
+
         # Добавляем недостающие товары из prihod
         unique_sku_count = len(stock_products | prihod_products)
 
@@ -148,56 +153,94 @@ def get_summary():
     return jsonify(summary)
 
 
+@app.route("/files", methods=["GET"])
+def files():
+    return Response(json.dumps(list_json_files(), ensure_ascii=False), mimetype="application/json")
 
+
+from flask import request, jsonify
+
+
+@app.route("/gpt_analiz", methods=["GET", "POST"])
+def gpt_analiz():
+    if request.method == "GET":
+        file_name = request.args.get("file_name")
+        dostavka = request.args.get("dostavka", type=int)
+        zapas = request.args.get("zapas", type=int)
+    else:  # POST-запрос
+        data = request.get_json()
+        file_name = data.get("file_name")
+        dostavka = data.get("dostavka", 0)
+        zapas = data.get("zapas", 0)
+
+    if not file_name:
+        return jsonify({"error": "file_name is required"}), 400
+
+    print(f"Генерация прогноза для товара{file_name}, со сроком доставки {dostavka} дней и запасом {zapas} шт.")
+
+    return gpt_api(file_name, dostavka, zapas)
 
 
 # Function to determine the start date and export sales data
 def actual_date():
     start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
-    #start_date = '2024-12-01'
+    # start_date = '2024-12-01'
     export_sales_data(start_date)
     print(f"Data export completed for start date {start_date}", flush=True)
 
 
 def actual_stock():
     start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
-    #start_date = '2024-12-01'
+    # start_date = '2024-12-01'
     run_products(start_date)
     print(f"Stock data update completed for start date {start_date}", flush=True)
-    
+
+
 def actual_prihod():
     start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
-    #start_date = '2024-12-01'
+    # start_date = '2024-12-01'
     export_prihod_data(start_date)
     print(f"Stock data update completed for start date {start_date}", flush=True)
 
 
+def update_file_list():
+    file_list = create_json_files()
+    Response(json.dumps(file_list, ensure_ascii=False), mimetype="application/json")
+    print(f"Обновление списка пакетов из директории завершено")
+
+
 # Function to schedule daily task at 22:00
 def schedule_task():
-    schedule.every().day.at("12:15").do(actual_date)
-    schedule.every().day.at("12:40").do(actual_stock)
-    schedule.every().day.at("12:59").do(actual_prihod)
+    schedule.every().day.at("11:15").do(actual_date)
+    schedule.every().day.at("11:40").do(actual_stock)
+    schedule.every().day.at("11:59").do(actual_prihod)
+    schedule.every().day.at("12:15").do(update_file_list)
     while True:
         schedule.run_pending()
         time.sleep(60)  # Check every minute if the scheduled task should run
+
+
+def run_initial_tasks():
+    actual_date()
+    threading.Timer(300, actual_stock).start()
+    threading.Timer(600, actual_prihod).start()
+
+
+def run_initial_tasks_gpt_files():
+    update_file_list()
 
 
 # Start the scheduling in a separate thread
 task_thread = threading.Thread(target=schedule_task)
 task_thread.start()
 
-
-
-# def run_initial_tasks():
-    # actual_date()    
-    # threading.Timer(300, actual_stock).start()    
-    # threading.Timer(600, actual_prihod).start()
-
-#поток запуска при старте
+# поток запуска при старте
 # initial_tasks_thread = threading.Thread(target=run_initial_tasks)
 # initial_tasks_thread.start()
 
-
+# поток запуска при старте
+initial_tasks_thread = threading.Thread(target=run_initial_tasks_gpt_files)
+initial_tasks_thread.start()
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=3000)
