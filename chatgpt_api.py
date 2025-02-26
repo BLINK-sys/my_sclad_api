@@ -2,9 +2,9 @@ from datetime import datetime
 import openai
 import json
 import os
-from config_GPT import token  # Подключаем API-ключ
 
-client = openai.OpenAI(api_key=token)
+api_key = os.getenv("OPENAI_API_KEY")
+client = openai.OpenAI(api_key)
 
 
 def gpt_api(file_name, dostavka, zapas):
