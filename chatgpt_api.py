@@ -4,7 +4,7 @@ import json
 import os
 from config_GPT import token  # Подключаем API-ключ
 
-client = openai.Client(api_key=token)
+client = openai.OpenAI(api_key=token)
 
 
 def gpt_api(file_name, dostavka, zapas):
