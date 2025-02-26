@@ -1,9 +1,11 @@
-from datetime import datetime
+import os
 import openai
 import json
-import os
+from datetime import datetime
 
-api_key = os.getenv("OPENAI_API_KEY")
+# Подключаем OpenAI API
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
 client = openai.OpenAI(api_key)
 
 
