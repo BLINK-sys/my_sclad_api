@@ -12,6 +12,7 @@ client = openai.OpenAI(api_key)
 def gpt_api(file_name, dostavka, zapas):
     """Загружает JSON-файл, передаёт его в GPT для анализа и получает ответ."""
 
+    file_name = urllib.parse.unquote(file_name)
     file_name = f"/var/data/products_json/{file_name}"
 
     # Проверяем, существует ли файл
