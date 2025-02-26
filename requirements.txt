@@ -6,3 +6,4 @@ gunicorn==20.1.0
 
 django-scheduler~=0.10.1
 openai~=1.61.1
+uvicorn~=0.29.0  # Добавляем поддержку ASGI
