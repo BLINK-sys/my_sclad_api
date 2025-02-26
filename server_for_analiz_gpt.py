@@ -4,11 +4,11 @@ import os
 import re
 
 
-# DB_PATH = "/var/data/sales_data.db"
-# JSON_DIR_PATH = "/var/data/products_json/"
+DB_PATH = "/var/data/sales_data.db"
+JSON_DIR_PATH = "/var/data/products_json/"
 
-DB_PATH = "sales_data.db"
-JSON_DIR_PATH = "products_json/"
+# DB_PATH = "sales_data.db"
+# JSON_DIR_PATH = "products_json/"
 
 # Создаём папку для JSON, если её нет
 os.makedirs(JSON_DIR_PATH, exist_ok=True)
