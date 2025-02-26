@@ -13,6 +13,7 @@ from sales_actual import export_sales_data
 from server_for_analiz_gpt import create_json_files, list_json_files
 from stock_actual import run_products
 from prihod_actual import export_prihod_data
+import asyncio
 
 app = Flask(__name__)
 CORS(app)
@@ -162,7 +163,7 @@ from flask import request, jsonify
 
 
 @app.route("/gpt_analiz", methods=["GET", "POST"])
-def gpt_analiz():
+async def gpt_analiz():
     if request.method == "GET":
         file_name = request.args.get("file_name")
         dostavka = request.args.get("dostavka", type=int)
