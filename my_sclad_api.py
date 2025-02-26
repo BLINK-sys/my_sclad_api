@@ -13,7 +13,6 @@ from sales_actual import export_sales_data
 from server_for_analiz_gpt import create_json_files, list_json_files
 from stock_actual import run_products
 from prihod_actual import export_prihod_data
-import asyncio
 
 app = Flask(__name__)
 CORS(app)
@@ -162,25 +161,23 @@ def files():
 
 
 @app.route("/gpt_analiz", methods=["GET", "POST"])
-async def gpt_analiz():
+def gpt_analiz():
     if request.method == "GET":
         file_name = request.args.get("file_name")
-        dostavka = request.args.get("dostavka", type=int, default=10)
-        zapas = request.args.get("zapas", type=int, default=1)
+        dostavka = request.args.get("dostavka", type=int)
+        zapas = request.args.get("zapas", type=int)
     else:  # POST-запрос
         data = request.get_json()
         file_name = data.get("file_name")
-        dostavka = data.get("dostavka", 10)
-        zapas = data.get("zapas", 1)
+        dostavka = data.get("dostavka", 0)
+        zapas = data.get("zapas", 0)
 
     if not file_name:
         return jsonify({"error": "file_name is required"}), 400
 
     print(f"Генерация прогноза для товара {file_name}, со сроком доставки {dostavka} дней и запасом {zapas} шт.")
 
-    # Делаем асинхронный вызов GPT API
-    result = await gpt_api(file_name, dostavka, zapas)
-
+    result = gpt_api(file_name, dostavka, zapas)  # Просто вызываем синхронно
     return jsonify(result)
     
 
