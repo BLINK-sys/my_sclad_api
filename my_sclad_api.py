@@ -20,7 +20,7 @@ CORS(app)
 
 # Function to get database connection
 def get_db_connection():
-    conn = sqlite3.connect('sales_data.db')
+    conn = sqlite3.connect('/var/data/sales_data.db')
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -184,22 +184,22 @@ def gpt_analiz():
 
 # Function to determine the start date and export sales data
 def actual_date():
-    # start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
-    start_date = '2025-01-01'
+    start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
+    # start_date = '2025-01-01'
     export_sales_data(start_date)
     print(f"Data export completed for start date {start_date}", flush=True)
 
 
 def actual_stock():
-    # start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
-    start_date = '2025-01-01'
+    start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
+    # start_date = '2025-01-01'
     run_products(start_date)
     print(f"Stock data update completed for start date {start_date}", flush=True)
 
 
 def actual_prihod():
-    # start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
-    start_date = '2025-01-01'
+    start_date = datetime.now().replace(day=1).strftime("%Y-%m-%d")
+    # start_date = '2025-01-01'
     export_prihod_data(start_date)
     print(f"Stock data update completed for start date {start_date}", flush=True)
 
@@ -236,8 +236,8 @@ task_thread = threading.Thread(target=schedule_task)
 task_thread.start()
 
 # поток запуска при старте
-initial_tasks_thread = threading.Thread(target=run_initial_tasks)
-initial_tasks_thread.start()
+# initial_tasks_thread = threading.Thread(target=run_initial_tasks)
+# initial_tasks_thread.start()
 
 # поток запуска при старте
 initial_tasks_thread = threading.Thread(target=run_initial_tasks_gpt_files)
